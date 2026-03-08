@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "StreakTab",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://type.fit https://raw.githubusercontent.com https://fonts.googleapis.com https://fonts.gstatic.com;"
+  },
+  "web_accessible_resources": [{"resources": ["icons/*", "sounds/*"], "matches": ["<all_urls>"]}],
+  "version": "1.0.0",
+  "description": "Build unstoppable daily streaks. 🔥",
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "offscreen",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://type.fit/*",
+    "https://fonts.googleapis.com/*",
+    "https://fonts.gstatic.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content-reminder.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/streaktab_icon.png",
+    "48": "icons/streaktab_icon.png",
+    "128": "icons/streaktab_icon.png"
+  }
+}

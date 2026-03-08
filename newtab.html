@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreakTab - Build Unstoppable Daily Streaks</title>
+  <script src="favicon.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Roboto:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Onboarding Modal -->
+  <div class="onboarding-overlay" id="onboardingOverlay">
+    <div class="onboarding-modal">
+      <h2 class="onboarding-title">Welcome to StreakTab</h2>
+      <p class="onboarding-subtitle">Let's personalize your experience</p>
+      <form class="onboarding-form" id="onboardingForm">
+        <div class="onboarding-field">
+          <label for="onboardingName">Your name</label>
+          <input type="text" id="onboardingName" placeholder="e.g. Neel" required maxlength="30" autocomplete="name">
+        </div>
+        <div class="onboarding-field">
+          <label for="onboardingAge">Age group</label>
+          <select id="onboardingAge" required>
+            <option value="">Select age group</option>
+            <option value="18-24">18 – 24</option>
+            <option value="25-34">25 – 34</option>
+            <option value="35-44">35 – 44</option>
+            <option value="45+">45+</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-add onboarding-submit">Get Started →</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Sidebar overlay -->
+  <div id="sidebarOverlay"></div>
+
+  <!-- Main App -->
+  <div class="app hidden" id="mainApp">
+
+    <!-- Left Rail (main sidebar) -->
+    <aside class="left-rail">
+      <a href="#" class="rail-brand" id="railBrand" title="StreakTab">
+        <img src="icons/streaktab_logo.png" alt="StreakTab" class="rail-brand-icon">
+      </a>
+      <button class="rail-home-btn" id="railHomeBtn" aria-label="Go to home" title="Go to home">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </button>
+      <button class="rail-fitness" id="sidebarToggle" aria-label="Fitness tracker" title="Fitness tracker">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 20V10M12 20V4M6 20v-6"/>
+        </svg>
+      </button>
+      <button class="rail-reminder-btn" id="reminderToggle" aria-label="Reminders" title="Reminders">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </button>
+      <button class="rail-notes-btn" id="notesToggle" aria-label="Notes" title="Notes">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10 9 9 9 8 9"/>
+        </svg>
+      </button>
+      <button class="rail-settings-btn" id="settingsToggle" aria-label="Settings" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- Reminder page: single table (upcoming + executed in one list, executed = light gray disabled) -->
+      <div class="reminder-page-main hidden" id="reminderPageMain">
+        <div class="reminder-page-main-inner">
+          <h2 class="reminder-page-main-title">Reminders</h2>
+          <p class="reminder-page-main-subtitle">Create reminders and never miss a beat. Executed ones show in light gray.</p>
+          <div class="reminder-empty-state hidden" id="reminderEmptyState">
+            <span class="reminder-empty-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </span>
+            <p>No reminders. Click Create to add one.</p>
+          </div>
+          <div class="reminder-table-wrap hidden" id="reminderTableWrap">
+            <table class="reminder-table" id="reminderTable">
+              <thead>
+                <tr>
+                  <th>Reminder</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th class="reminder-actions-th"></th>
+                </tr>
+              </thead>
+              <tbody id="reminderTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notes page (main area) — shown when notes sidebar open. Replaces home. -->
+      <div class="notes-page-main hidden" id="notesPageMain">
+        <div class="notes-page-main-inner">
+          <h2 class="notes-page-main-title">Notes</h2>
+          <p class="notes-page-main-subtitle">Create notes, paste images, and keep everything in one place</p>
+          <div class="notes-empty-state hidden" id="notesEmptyState">
+            <span class="notes-empty-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </span>
+            <p>No notes yet. Click Create Note to add one.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tracker page (main area) — shown when tracker icon clicked + no trackers. Replaces home. -->
+      <div class="tracker-page-main hidden" id="trackerPageMain">
+        <div class="tracker-page-main-inner">
+          <h2 class="tracker-page-main-title">Tracker page</h2>
+          <p class="tracker-page-main-subtitle">Create tracker and achieve your Goal</p>
+        </div>
+      </div>
+
+      <!-- Settings page (main area) — shown when settings icon clicked. Replaces home. -->
+      <div class="settings-page-main hidden" id="settingsPageMain">
+        <div class="settings-page-main-inner">
+          <h2 class="settings-page-main-title">Settings</h2>
+          <p class="settings-page-main-subtitle">Customize your StreakTab experience</p>
+          <div class="settings-page-content">
+            <div class="settings-card">
+              <h3 class="settings-card-title">Reminder sound</h3>
+              <p class="settings-card-hint">Upload a .mp4 or .wav file to play when a reminder fires. One sound at a time—clear the current sound to upload a different one.</p>
+              <div class="settings-sound-row">
+                <input type="file" id="reminderSoundInput" accept=".mp4,.wav,audio/mp4,audio/wav,audio/wave" class="settings-file-input">
+                <button type="button" class="settings-choose-file-btn" id="chooseReminderSoundBtn">Choose file</button>
+                <button type="button" class="settings-clear-sound" id="clearReminderSound" title="Use default sound">Clear</button>
+              </div>
+              <div class="settings-sound-preview hidden" id="reminderSoundPreview">
+                <span class="settings-sound-filename-label">File:</span>
+                <span class="settings-sound-filename" id="reminderSoundFilename"></span>
+                <div class="settings-sound-controls">
+                  <button type="button" class="settings-play-btn" id="previewReminderSoundBtn" title="Play">Play</button>
+                  <button type="button" class="settings-pause-btn" id="pauseReminderSoundBtn" title="Pause">Pause</button>
+                  <button type="button" class="settings-stop-btn" id="stopReminderSoundBtn" title="Stop">Stop</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════════ HOME: greeting, quote, notes (hidden when tracker open + no trackers) ══════════════ -->
+      <div class="main-home" id="mainHome">
+      <div class="top-half">
+
+        <!-- Header -->
+        <header class="main-header">
+          <h1 class="greeting">Hi , <span id="userName">there</span> 👋</h1>
+        </header>
+
+        <!-- Quote -->
+        <section class="quote-section">
+          <blockquote class="quote">
+            <span class="quote-text" id="quoteText">Loading inspiration…</span>
+            <cite class="quote-author" id="quoteAuthor"></cite>
+          </blockquote>
+        </section>
+
+        <!-- Date & Time -->
+        <div class="datetime-section">
+          <div class="datetime-date" id="datetimeDate"></div>
+          <div class="datetime-time" id="datetimeTime"></div>
+        </div>
+
+        <!-- Your Notes heading -->
+        <h2 class="your-notes-heading">Your Notes</h2>
+
+        <!-- Horizontal divider - grid starts below -->
+        <hr class="datetime-divider">
+
+      </div><!-- /top-half -->
+
+      <!-- ══════════════ BOTTOM HALF — full-width grid ══════════════ -->
+      <div class="grid-area">
+        <div class="grid-area-inner">
+
+          <!-- Notes / Tasks -->
+          <section class="tasks-section" id="tasksSection">
+            <div class="grid-section-header">
+              <span class="task-date-pill" id="taskDateDisplay"></span>
+            </div>
+            <ul class="sticky-notes-grid" id="taskList">
+              <li class="tasks-empty">
+                <span class="tasks-empty-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                    <line x1="16" y1="13" x2="8" y2="13"/>
+                    <line x1="16" y1="17" x2="8" y2="17"/>
+                    <polyline points="10 9 9 9 8 9"/>
+                  </svg>
+                </span>
+                Click + to add your first note
+              </li>
+            </ul>
+          </section>
+
+        </div>
+      </div><!-- /grid-area -->
+      <button class="home-add-note-btn" id="homeAddNoteBtn" aria-label="Add note" title="Add note">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </button>
+      </div><!-- /main-home -->
+
+    </main><!-- /main-content -->
+
+  </div><!-- /app -->
+
+  <!-- Reminder Sidebar: Opens when user clicks reminder icon in left rail. -->
+  <aside class="sidebar reminder-sidebar closed" id="reminderSidebar">
+    <div class="sidebar-header">
+      <h2>Reminders</h2>
+      <button class="sidebar-close" id="reminderSidebarClose" aria-label="Close">×</button>
+    </div>
+    <div class="sidebar-content">
+      <button class="tracker-create-btn" id="reminderCreateBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Create Reminder
+      </button>
+      <p class="reminder-sidebar-hint">Executed reminders appear gray. Toggle OFF = stop sound. <strong>Delete</strong> = remove.</p>
+    </div>
+  </aside>
+
+  <!-- Notes Sidebar: Opens when user clicks notes icon in left rail. -->
+  <aside class="sidebar notes-sidebar closed" id="notesSidebar">
+    <div class="sidebar-header">
+      <h2>Notes</h2>
+      <button class="sidebar-close" id="notesSidebarClose" aria-label="Close">×</button>
+    </div>
+    <div class="sidebar-content">
+      <button class="tracker-create-btn" id="notesCreateBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Create Note
+      </button>
+      <p class="notes-sidebar-hint">Write anything, paste images, edit names and content easily.</p>
+      <ul class="tracker-entries-list notes-entries-list" id="notesEntriesList"></ul>
+    </div>
+  </aside>
+
+  <!-- Tracker Sidebar: NOT universal. Opens ONLY when user clicks tracker icon in left rail. -->
+  <aside class="sidebar tracker-sidebar closed" id="fitnessSidebar">
+    <div class="sidebar-header">
+      <h2>Tracker</h2>
+      <button class="sidebar-close" id="sidebarClose" aria-label="Close">×</button>
+    </div>
+
+    <div class="sidebar-content">
+      <button class="tracker-create-btn" id="trackerCreateBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Create
+      </button>
+      <ul class="tracker-entries-list" id="trackerEntriesList"></ul>
+    </div>
+  </aside>
+
+  <!-- Create Tracker Dialog -->
+  <div class="tracker-create-dialog-overlay" id="trackerCreateDialogOverlay">
+    <div class="tracker-create-dialog">
+      <div class="tracker-create-dialog-header">
+        <h2 id="trackerCreateDialogTitle">Create Tracker</h2>
+        <button class="tracker-create-dialog-close" id="trackerCreateDialogClose" aria-label="Close">×</button>
+      </div>
+      <form class="tracker-create-form" id="trackerCreateForm">
+        <div class="tracker-create-field">
+          <label for="trackerNameInput">Tracker name</label>
+          <input type="text" id="trackerNameInput" placeholder="e.g. Daily Habits" required maxlength="50">
+        </div>
+        <div class="tracker-create-field">
+          <label>Columns</label>
+          <div class="tracker-columns-list" id="trackerColumnsList"></div>
+          <button type="button" class="tracker-add-column-btn" id="trackerAddColumnBtn">+ Add column</button>
+        </div>
+        <div class="tracker-create-dialog-footer">
+          <button type="submit" class="btn-add" id="trackerCreateDialogSubmit">Create Tracker</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Full-screen Tracker Sheet (simple table view) -->
+  <div class="tracker-sheet-overlay" id="trackerSheetOverlay">
+    <div class="tracker-sheet">
+      <div class="tracker-sheet-header">
+        <h2 id="trackerSheetTitle">Tracker</h2>
+        <div class="tracker-sheet-actions">
+          <button class="tracker-edit-btn" id="trackerEditBtn" title="Edit name & columns">Edit</button>
+          <button class="tracker-add-row-btn" id="trackerAddRowBtn">+ Add row</button>
+          <button class="tracker-sheet-close" id="trackerSheetClose" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="tracker-sheet-body">
+        <div class="tracker-table-wrap">
+          <table class="tracker-simple-table" id="trackerSimpleTable">
+            <thead id="trackerTableHead"></thead>
+            <tbody id="trackerTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create / Edit Reminder Dialog -->
+  <div class="tracker-create-dialog-overlay" id="reminderDialogOverlay">
+    <div class="tracker-create-dialog reminder-dialog">
+      <div class="tracker-create-dialog-header">
+        <h2 id="reminderDialogTitle">Create Reminder</h2>
+        <button class="tracker-create-dialog-close" id="reminderDialogClose" aria-label="Close">×</button>
+      </div>
+      <form class="tracker-create-form" id="reminderForm">
+        <div class="tracker-create-field">
+          <label for="reminderTextInput">Reminder</label>
+          <input type="text" id="reminderTextInput" placeholder="e.g. Call mom" required maxlength="100">
+        </div>
+        <div class="tracker-create-field reminder-datetime-row">
+          <label for="reminderDateInput">Date</label>
+          <input type="date" id="reminderDateInput" required>
+        </div>
+        <div class="tracker-create-field reminder-datetime-row">
+          <label for="reminderTimeInput">Time</label>
+          <input type="time" id="reminderTimeInput" required>
+        </div>
+        <div class="tracker-create-dialog-footer">
+          <button type="submit" class="btn-add" id="reminderDialogSubmit">Create Reminder</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Notes Sheet: Full editor for a note (name, content, image paste, delete) -->
+  <div class="notes-sheet-overlay" id="notesSheetOverlay">
+    <div class="notes-sheet">
+      <div class="notes-sheet-header">
+        <div class="notes-sheet-title-row">
+          <input type="text" class="notes-sheet-title-input" id="notesSheetTitleInput" placeholder="Note name" maxlength="80">
+        </div>
+        <div class="notes-sheet-actions">
+          <button class="notes-sheet-delete-btn" id="notesSheetDeleteBtn" title="Delete note">Delete</button>
+          <button class="notes-sheet-close" id="notesSheetClose" aria-label="Close">×</button>
+        </div>
+      </div>
+      <div class="notes-sheet-body">
+        <div class="notes-sheet-content-wrap">
+          <div class="notes-sheet-content" id="notesSheetContent" contenteditable="true" tabindex="0" role="textbox" aria-multiline="true" spellcheck="true" data-placeholder="Write anything here… Paste images with Ctrl+V"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add / Edit Note Dialog -->
+  <div class="note-dialog-overlay" id="noteDialogOverlay">
+    <div class="note-dialog">
+      <div class="note-dialog-header">
+        <h2 id="noteDialogTitle">Add Note</h2>
+        <button class="note-dialog-close" id="noteDialogClose" aria-label="Close">×</button>
+      </div>
+      <div class="note-dialog-body">
+        <div class="note-editor-row">
+          <div class="note-editor-col">
+            <label class="note-editor-label">Markdown</label>
+            <textarea id="noteMarkdownInput" class="note-markdown-input" placeholder="# My Note&#10;&#10;- Bullet point 1&#10;- [ ] Checkbox&#10;- [x] Done&#10;&#10;**Bold** *italic* ==highlight==" rows="10"></textarea>
+          </div>
+          <div class="note-editor-col">
+            <label class="note-editor-label">Preview</label>
+            <div id="notePreview" class="note-preview"></div>
+          </div>
+        </div>
+      </div>
+      <div class="note-dialog-footer">
+        <button class="btn-add" id="noteDialogSubmitBtn">Add Note</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="reminder-sound.js"></script>
+  <script src="onboarding.js"></script>
+  <script src="quotes.js"></script>
+  <script src="tasks.js"></script>
+  <script src="tracker.js"></script>
+  <script src="reminders.js"></script>
+  <script src="notes.js"></script>
+  <script src="settings.js"></script>
+
+</body>
+</html>
