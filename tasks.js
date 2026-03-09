@@ -105,7 +105,8 @@
     html = html.replace(/^[-*] \[ \] (.+)$/gm, '<li class="task-tick">☐ $1</li>');
     html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
     html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li[^>]*>.*?<\/li>\s*)+/gs, (m) => '<ul>' + m.replace(/\s+/g, '') + '</ul>');
+    // Wrap consecutive <li> items in a <ul> without stripping spaces inside items
+    html = html.replace(/(<li[^>]*>.*?<\/li>\s*)+/gs, (m) => '<ul>' + m + '</ul>');
     html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
     html = html.replace(/\n/g, '<br>');
     return html;
